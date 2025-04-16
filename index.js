@@ -5,7 +5,6 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import swaggerUI from 'swagger-ui-express';
 import swaggerJsDoc from 'swagger-jsdoc';
-import bodyParser from 'body-parser';
 import imageRouter from './src/Routes/imageRoutes.js'; // New: Import image routes
 import helloRouter from './src/hello.js';
 
@@ -28,7 +27,6 @@ const options = {
       title: 'Jewellery Bot APIs',
       version: '1.0.0',
       description: 'APIs with image processing',
-      // termsOfService: 'http://example.com/terms/',
       contact: {
         name: 'API Support',
         url: 'http://prodevmanish.vercel.app/',
@@ -37,7 +35,7 @@ const options = {
     },
     servers: [
       {
-        url: process.env.BASE_URL || `http://localhost:${PORT}`,
+        url: `${process.env.BASE_URL || 'http://localhost:'}${PORT}`,
         description: 'API Documentation',
       },
     ],

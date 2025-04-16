@@ -1,5 +1,4 @@
-// src/controllers/imageController.js
-import { generateImage } from '../utils/apiHelper.js';
+import imageService from '../services/imageService.js';
 
 /**
  * @swagger
@@ -30,22 +29,10 @@ import { generateImage } from '../utils/apiHelper.js';
  */
 async function generateModelImage(req, res) {
   try {
-    const imageBuffer = req.file.buffer;
-    const base64Image = imageBuffer.toString('base64');
-    const contents = [
-      {
-        text: 'Generate an Ecommerce listing suitable image of a real human female model wearing the exact jewellery in input on a suitable body part, keep the background and lighting suitable for ecommerce in high resolution',
-      },
-      {
-        inlineData: {
-          mimeType: req.file.mimetype,
-          data: base64Image,
-        },
-      },
-    ];
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    const imageData = await generateImage(apiKey, contents);
-    const imageBufferOut = Buffer.from(imageData, 'base64');
+    const imageBufferOut = await imageService.generateModelImage(
+      req.file.buffer,
+      req.file.mimetype
+    );
     res.set('Content-Type', 'image/png');
     res.send(imageBufferOut);
   } catch (error) {
@@ -83,22 +70,10 @@ async function generateModelImage(req, res) {
  */
 async function removeBackground(req, res) {
   try {
-    const imageBuffer = req.file.buffer;
-    const base64Image = imageBuffer.toString('base64');
-    const contents = [
-      {
-        text: 'Remove the background of the provided jewellery and keep the exact jewellery as it is on a white background with good lighting and premium look for an ecommerce listing',
-      },
-      {
-        inlineData: {
-          mimeType: req.file.mimetype,
-          data: base64Image,
-        },
-      },
-    ];
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    const imageData = await generateImage(apiKey, contents);
-    const imageBufferOut = Buffer.from(imageData, 'base64');
+    const imageBufferOut = await imageService.removeBackground(
+      req.file.buffer,
+      req.file.mimetype
+    );
     res.set('Content-Type', 'image/png');
     res.send(imageBufferOut);
   } catch (error) {
@@ -144,30 +119,23 @@ async function removeBackground(req, res) {
  */
 async function changeGemstoneColor(req, res) {
   try {
-    const imageBuffer = req.file.buffer;
-    const base64Image = imageBuffer.toString('base64');
     const color = req.body.color;
     if (!color) {
       return res.status(400).json({ error: 'Color parameter is required' });
     }
-    const contents = [
-      {
-        text: `Change the colour of gemstones provided in image to ${color}`,
-      },
-      {
-        inlineData: {
-          mimeType: req.file.mimetype,
-          data: base64Image,
-        },
-      },
-    ];
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    const imageData = await generateImage(apiKey, contents);
-    const imageBufferOut = Buffer.from(imageData, 'base64');
+    
+    const imageBufferOut = await imageService.changeGemstoneColor(
+      req.file.buffer,
+      req.file.mimetype,
+      color
+    );
     res.set('Content-Type', 'image/png');
     res.send(imageBufferOut);
   } catch (error) {
     console.error(error);
+    if (error.message === 'Color parameter is required') {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: 'Failed to generate image' });
   }
 }
@@ -209,30 +177,23 @@ async function changeGemstoneColor(req, res) {
  */
 async function replaceBackground(req, res) {
   try {
-    const imageBuffer = req.file.buffer;
-    const base64Image = imageBuffer.toString('base64');
     const background = req.body.background;
     if (!background) {
       return res.status(400).json({ error: 'Background parameter is required' });
     }
-    const contents = [
-      {
-        text: `Replace the background of the jewellery provided in image with ${background}`,
-      },
-      {
-        inlineData: {
-          mimeType: req.file.mimetype,
-          data: base64Image,
-        },
-      },
-    ];
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    const imageData = await generateImage(apiKey, contents);
-    const imageBufferOut = Buffer.from(imageData, 'base64');
+    
+    const imageBufferOut = await imageService.replaceBackground(
+      req.file.buffer,
+      req.file.mimetype,
+      background
+    );
     res.set('Content-Type', 'image/png');
     res.send(imageBufferOut);
   } catch (error) {
     console.error(error);
+    if (error.message === 'Background parameter is required') {
+      return res.status(400).json({ error: error.message });
+    }
     res.status(500).json({ error: 'Failed to generate image' });
   }
 }

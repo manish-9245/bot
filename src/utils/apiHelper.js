@@ -1,4 +1,3 @@
-// src/utils/apiHelper.js
 import { GoogleGenAI, Modality } from '@google/genai';
 
 async function generateImage(apiKey, contents) {
@@ -11,7 +10,7 @@ async function generateImage(apiKey, contents) {
     },
   });
 
-  if (response.candidates && response.candidates[0] && response.candidates[0].content.parts) {
+  if (response.candidates?.[0]?.content?.parts) {
     for (const part of response.candidates[0].content.parts) {
       if (part.inlineData) {
         return part.inlineData.data; // Base64 image data
