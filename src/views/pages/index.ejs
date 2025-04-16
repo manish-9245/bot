@@ -1,31 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta httpEquiv="Content-Type" content="text/html" />
-    <meta httpEquiv="cache-control" content="personal website" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=no"
-    />
-    <meta name="theme-color" content="#623686" />
-    <link href="./index.css" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="img/logo.png" href="./log.jpeg" />
-    <title>My App</title>
-  </head>
-  <body>
-    <div class="app">
-      <h1>Welcome to my app!!</h1>
-      
-      <h2>To check the data please click on the link below:</h2>
-      <div class="container">
-      <div class="container-link">
-        <a href="/posts">Posts</a>
-      </div>
-      <div class="container-link">
-        <a href="/api-docs/">Api-Docs</a>
-      </div>
-      <div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JewelBot - AI-Powered Jewellery Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/11.3.24/framer-motion.min.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link type="text/css" rel="stylesheet" href="styles.css">
+</head>
+<body class="gradient-bg text-white font-sans scroll-smooth">
+    <nav class="fixed top-0 w-full bg-gray-900/80 backdrop-blur-md z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold">JewelBot</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="hover:text-purple-400 transition">Home</a>
+                    <a href="#features" class="hover:text-purple-400 transition">Features</a>
+                    <a href="#pricing" class="hover:text-purple-400 transition">Pricing</a>
+                    <a href="#testimonials" class="hover:text-purple-400 transition">Testimonials</a>
+                    <button id="openSignupModal" class="bg-purple-600 px-4 py-2 rounded-full hover:bg-purple-700 transition">Sign Up</button>
+                    <button id="openLoginModal" class="border border-purple-600 px-4 py-2 rounded-full hover:bg-purple-600 transition">Login</button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="menu-toggle" class="text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 hover:text-purple-400">Home</a>
+                <a href="#features" class="block px-3 py-2 hover:text-purple-400">Features</a>
+                <a href="#pricing" class="block px-3 py-2 hover:text-purple-400">Pricing</a>
+                <a href="#testimonials" class="block px-3 py-2 hover:text-purple-400">Testimonials</a>
+                <button id="openSignupModalMobile" class="block px-3 py-2 bg-purple-600 rounded-full text-center hover:bg-purple-700">Sign Up</button>
+                <button id="openLoginModalMobile" class="block px-3 py-2 border border-purple-600 rounded-full text-center hover:bg-purple-600">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="app">
+        <div id="home" class="min-h-screen flex flex-col justify-center items-center text-center px-4">
+            <div class="animate-pulse">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6">JewelBot</h1>
+                <p class="text-xl md:text-2xl mb-8 max-w-2xl">Revolutionize your jewellery experience with AI-powered design, customization, and visualization. Create, manage, and showcase your collection like never before.</p>
+                <button id="getStartedButton" class="bg-purple-600 px-6 py-3 rounded-full text-lg hover:bg-purple-700 transition">Get Started</button>
+            </div>
+        </div>
+
+        <div id="features" class="py-20 bg-gray-800/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center mb-12">Why Choose JewelBot?</h2>
+                <p class="text-center text-lg mb-12 max-w-3xl mx-auto">Discover the power of AI in jewellery design and management. From creating stunning visuals to managing your collection, JewelBot is your ultimate companion.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="p-6 bg-gray-900 rounded-lg shadow-lg hover-glow">
+                        <h3 class="text-2xl font-semibold mb-4">AI Model Visualization</h3>
+                        <p>Upload a jewellery image and see it on a virtual model, perfect for e-commerce and customer previews.</p>
+                    </div>
+                    <div class="p-6 bg-gray-900 rounded-lg shadow-lg hover-glow">
+                        <h3 class="text-2xl font-semibold mb-4">Background Removal</h3>
+                        <p>Isolate your jewellery with our AI-powered background removal tool for clean, professional images.</p>
+                    </div>
+                    <div class="p-6 bg-gray-900 rounded-lg shadow-lg hover-glow">
+                        <h3 class="text-2xl font-semibold mb-4">Gemstone Color Change</h3>
+                        <p>Experiment with gemstone colors in real-time to match your vision or customer preferences.</p>
+                    </div>
+                    <div class="p-6 bg-gray-900 rounded-lg shadow-lg hover-glow">
+                        <h3 class="text-2xl font-semibold mb-4">Custom Backgrounds</h3>
+                        <p>Replace jewellery backgrounds with stunning scenes like beaches or studios for captivating visuals.</p>
+                    </div>
+                    <div class="p-6 bg-gray-900 rounded-lg shadow-lg hover-glow">
+                        <h3 class="text-2xl font-semibold mb-4">Smart Inventory Management</h3>
+                        <p>Track and organize your jewellery collection with AI-driven insights and recommendations.</p>
+                    </div>
+                    <div class="p-6 bg-gray-900 rounded-lg shadow-lg hover-glow">
+                        <h3 class="text-2xl font-semibold mb-4">WhatsApp Integration</h3>
+                        <p>Interact with your JewelBot via WhatsApp for instant design updates and collection management.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="how-it-works" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center mb-12">How JewelBot Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="bg-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">1</div>
+                        <h3 class="text-xl font-semibold mb-2">Upload Your Jewellery</h3>
+                        <p>Start by uploading an image of your jewellery piece to the JewelBot platform.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">2</div>
+                        <h3 class="text-xl font-semibold mb-2">Customize with AI</h3>
+                        <p>Use AI tools to visualize on models, change gemstone colors, or swap backgrounds.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">3</div>
+                        <h3 class="text-xl font-semibold mb-2">Manage Your Collection</h3>
+                        <p>Organize and track your designs with smart inventory tools and WhatsApp updates.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">4</div>
+                        <h3 class="text-xl font-semibold mb-2">Share & Sell</h3>
+                        <p>Showcase your creations to customers with professional, AI-enhanced visuals.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="pricing" class="py-20 bg-gray-800/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center mb-12">Pricing Plans</h2>
+                <p class="text-center text-lg mb-12 max-w-3xl mx-auto">Choose a plan that fits your needs and start creating with JewelBot today.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="p-8 bg-gray-900 rounded-lg shadow-lg hover-glow">
+                        <h3 class="text-2xl font-semibold mb-4">Starter Plan</h3>
+                        <p class="text-4xl font-bold mb-6">$9.99<span class="text-lg">/mo</span></p>
+                        <ul class="mb-6 space-y-2">
+                            <li>1 Parent Account</li>
+                            <li>Up to 3 Child Accounts</li>
+                            <li>WhatsApp Integration</li>
+                            <li>Basic AI Features (Background Removal, Model Visualization)</li>
+                        </ul>
+                        <button id="chooseStarterPlan" class="block bg-purple-600 px-6 py-3 rounded-full text-center hover:bg-purple-700">Choose Plan</button>
+                    </div>
+                    <div class="p-8 bg-gray-900 rounded-lg shadow-lg hover-glow border-2 border-purple-600">
+                        <h3 class="text-2xl font-semibold mb-4">Pro Plan</h3>
+                        <p class="text-4xl font-bold mb-6">$19.99<span class="text-lg">/mo</span></p>
+                        <ul class="mb-6 space-y-2">
+                            <li>1 Parent Account</li>
+                            <li>Up to 5 Child Accounts</li>
+                            <li>WhatsApp Integration</li>
+                            <li>All AI Features (Color Change, Custom Backgrounds)</li>
+                        </ul>
+                        <button id="chooseProPlan" class="block bg-purple-600 px-6 py-3 rounded-full text-center hover:bg-purple-700">Choose Plan</button>
+                    </div>
+                    <div class="p-8 bg-gray-900 rounded-lg shadow-lg hover-glow">
+                        <h3 class="text-2xl font-semibold mb-4">Enterprise Plan</h3>
+                        <p class="text-4xl font-bold mb-6">Custom</p>
+                        <ul class="mb-6 space-y-2">
+                            <li>Multiple Parent Accounts</li>
+                            <li>Unlimited Child Accounts</li>
+                            <li>Priority Support</li>
+                            <li>Custom AI Integrations</li>
+                        </ul>
+                        <button id="contactUsPlan" class="block bg-purple-600 px-6 py-3 rounded-full text-center hover:bg-purple-700">Contact Us</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="testimonials" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-bold text-center mb-12">What Our Users Say</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="p-6 bg-gray-900 rounded-lg shadow-lg hover-glow">
+                        <p class="mb-4">"JewelBot transformed how I showcase my designs. The AI model visualization is a game-changer!"</p>
+                        <p class="font-semibold">Sarah M., Jewellery Designer</p>
+                    </div>
+                    <div class="p-6 bg-gray-900 rounded-lg shadow-lg hover-glow">
+                        <p class="mb-4">"Changing gemstone colors in seconds helped me close deals faster. Highly recommend!"</p>
+                        <p class="font-semibold">Anil K., Retail Owner</p>
+                    </div>
+                    <div class="p-6 bg-gray-900 rounded-lg shadow-lg hover-glow">
+                        <p class="mb-4">"The WhatsApp integration makes managing my inventory so easy. JewelBot is a must-have."</p>
+                        <p class="font-semibold">Priya R., Entrepreneur</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="py-20 bg-purple-900/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-bold mb-6">Ready to Transform Your Jewellery Business?</h2>
+                <p class="text-xl mb-8 max-w-2xl mx-auto">Join thousands of designers and retailers using JewelBot to create, manage, and sell with AI-powered tools.</p>
+                <button id="callToActionSignup" class="bg-purple-600 px-6 py-3 rounded-full text-lg hover:bg-purple-700 transition">Start Now</button>
+            </div>
+        </div>
     </div>
-  </body>
+
+    <div id="signupModal" class="modal-overlay">
+        <div class="modal-content hover-glow">
+            <button class="modal-close-btn" id="closeSignupModal">&times;</button>
+            <h2 class="text-3xl font-bold mb-6 text-center">Sign Up for JewelBot</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium">Full Name</label>
+                    <input type="text" id="fullName" class="w-full p-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">WhatsApp Number</label>
+                    <input type="tel" id="whatsapp" class="w-full p-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Place</label>
+                    <input type="text" id="place" class="w-full p-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Email</label>
+                    <input type="email" id="email" class="w-full p-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Child Account Emails (Max 3)</label>
+                    <input type="email" id="child1" class="w-full p-2 bg-gray-800 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Child Email 1">
+                    <input type="email" id="child2" class="w-full p-2 bg-gray-800 rounded-md mb-2 focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Child Email 2">
+                    <input type="email" id="child3" class="w-full p-2 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Child Email 3">
+                </div>
+                <button id="signupBtn" class="w-full bg-purple-600 px-6 py-3 rounded-full hover:bg-purple-700 transition">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-content hover-glow">
+            <button class="modal-close-btn" id="closeLoginModal">&times;</button>
+            <h2 class="text-3xl font-bold mb-6 text-center">Login to JewelBot</h2>
+            <div id="googleSignIn" class="flex justify-center"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
